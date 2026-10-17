@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Спорт Прогнозы</title>
+    <title>Спорт Статистика</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         :root {
@@ -33,28 +33,12 @@
         }
         .card:active { transform: scale(0.98); }
         .back-btn {
-            background: none;
-            border: none;
-            color: var(--button-color);
-            font-size: 16px;
-            padding: 0;
-            margin-bottom: 16px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
+            background: none; border: none; color: var(--button-color);
+            font-size: 16px; padding: 0; margin-bottom: 16px; cursor: pointer;
         }
         .hidden { display: none; }
-        /* Стили для таблицы */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 14px;
-        }
-        th, td {
-            padding: 8px 4px;
-            text-align: left;
-            border-bottom: 1px solid rgba(128, 128, 128, 0.2);
-        }
+        table { width: 100%; border-collapse: collapse; font-size: 14px; }
+        th, td { padding: 8px 4px; text-align: left; border-bottom: 1px solid rgba(128, 128, 128, 0.2); }
         th { font-weight: 600; color: rgba(128, 128, 128, 1); }
         tr:active { background-color: rgba(0,0,0,0.05); }
     </style>
@@ -68,55 +52,27 @@
             <h2>🏆 Чемпионаты</h2>
             <p>Выбрать лигу и посмотреть матчи</p>
         </div>
-        <!-- Сюда можно добавить другие пункты меню -->
     </div>
 
     <!-- Список лиг -->
-    <!-- Список лиг -->
-<div id="leagues-menu" class="hidden">
-    <button class="back-btn" onclick="showMainMenu()">← Назад</button>
-    <h1>Выберите лигу</h1>
-    <div class="card" onclick="showLeagueDetails('PL', 'Английская Премьер-лига')">
-        <h2>🏴 АПЛ</h2>
-    </div>
-    <div class="card" onclick="showLeagueDetails('PD', 'Ла Лига')">
-        <h2>🇪🇸 Ла Лига</h2>
-    </div>
-    <div class="card" onclick="showLeagueDetails('SA', 'Серия А')">
-        <h2>🇮🇹 Серия А</h2>
-    </div>
-    <div class="card" onclick="showLeagueDetails('BL1', 'Бундеслига')">
-        <h2>🇩🇪 Бундеслига</h2>
-    </div>
-    <div class="card" onclick="showLeagueDetails('FL1', 'Лига 1')">
-        <h2>🇫🇷 Лига 1</h2>
-    </div>
-    <div class="card" onclick="showLeagueDetails('CL', 'Лига Чемпионов')">
-        <h2>🏆 Лига Чемпионов</h2>
-    </div>
-    <div class="card" onclick="showLeagueDetails('ELC', 'Чемпионшип')">
-        <h2>🏴 Чемпионшип (Англия)</h2>
-    </div>
-    <div class="card" onclick="showLeagueDetails('Friendly', 'Товарищеские матчи')">
-        <h2>🤝 Товарищеские игры</h2>
-    </div>
-</div>
-    другие лиги -->
+    <div id="leagues-menu" class="hidden">
+        <button class="back-btn" onclick="showMainMenu()">← Назад</button>
+        <h1>Выберите лигу</h1>
+        <div class="card" onclick="showLeagueDetails('PL', 'Английская Премьер-лига')"><h2>🏴 АПЛ</h2></div>
+        <div class="card" onclick="showLeagueDetails('PD', 'Ла Лига')"><h2>🇪🇸 Ла Лига</h2></div>
+        <div class="card" onclick="showLeagueDetails('SA', 'Серия А')"><h2>🇮🇹 Серия А</h2></div>
+        <div class="card" onclick="showLeagueDetails('BL1', 'Бундеслига')"><h2>🇩🇪 Бундеслига</h2></div>
+        <div class="card" onclick="showLeagueDetails('FL1', 'Лига 1')"><h2>🇫🇷 Лига 1</h2></div>
+        <div class="card" onclick="showLeagueDetails('CL', 'Лига Чемпионов')"><h2>🏆 Лига Чемпионов</h2></div>
     </div>
 
-    <!-- Детали лиги (Прогнозы / Таблица) -->
+    <!-- Детали лиги -->
     <div id="league-details" class="hidden">
         <button class="back-btn" onclick="showLeagues()">← Назад к лигам</button>
         <h1 id="league-title">Лига</h1>
-        
-        <div class="card" onclick="showPredictions()">
-            <h2>🔮 Прогнозы матчей</h2>
-            <p>Примерные вероятности и исходы</p>
-        </div>
-        
         <div class="card" onclick="showTable()">
             <h2>📊 Турнирная таблица</h2>
-            <p>Нажмите на команду, чтобы увидеть прошлый матч</p>
+            <p>Посмотреть текущее положение команд</p>
         </div>
     </div>
 
@@ -126,28 +82,20 @@
         <h1 id="table-title">Таблица</h1>
         <table id="league-table">
             <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Команда</th>
-                    <th>И</th>
-                    <th>О</th>
-                </tr>
+                <tr><th>#</th><th>Команда</th><th>И</th><th>О</th></tr>
             </thead>
-            <tbody>
-                <!-- Данные будут вставлены через JS -->
-            </tbody>
+            <tbody></tbody>
         </table>
     </div>
 
     <script>
-        // Инициализация Telegram Web App
         const tg = window.Telegram.WebApp;
-        tg.expand(); // Разворачиваем на весь экран
+        tg.expand();
         tg.ready();
 
         let currentLeagueCode = '';
+        let currentLeagueName = '';
 
-        // --- Навигация ---
         function hideAll() {
             document.getElementById('main-menu').classList.add('hidden');
             document.getElementById('leagues-menu').classList.add('hidden');
@@ -155,49 +103,56 @@
             document.getElementById('table-view').classList.add('hidden');
         }
 
-        function showMainMenu() {
-            hideAll();
-            document.getElementById('main-menu').classList.remove('hidden');
-        }
-
-        function showLeagues() {
-            hideAll();
-            document.getElementById('leagues-menu').classList.remove('hidden');
-        }
-
+        function showMainMenu() { hideAll(); document.getElementById('main-menu').classList.remove('hidden'); }
+        function showLeagues() { hideAll(); document.getElementById('leagues-menu').classList.remove('hidden'); }
+        
         function showLeagueDetails(code, name) {
             hideAll();
             currentLeagueCode = code;
+            currentLeagueName = name;
             document.getElementById('league-title').innerText = name;
             document.getElementById('league-details').classList.remove('hidden');
         }
 
         function backToDetails() {
-            showLeagueDetails(currentLeagueCode, document.getElementById('league-title').innerText);
+            showLeagueDetails(currentLeagueCode, currentLeagueName);
         }
 
-        // --- Данные (Заглушки) ---
-        function showPredictions() {
-            // В будущем здесь будет запрос к твоему серверу за прогнозами
-            alert('Здесь будут прогнозы матчей для ' + currentLeagueCode);
-        }
-
-        function showTable() {
+        async function showTable() {
             hideAll();
             document.getElementById('table-view').classList.remove('hidden');
-            document.getElementById('table-title').innerText = 'Таблица: ' + currentLeagueCode;
+            document.getElementById('table-title').innerText = 'Таблица: ' + currentLeagueName;
             
-            // Для примера заполняем таблицу фейковыми данными
             const tbody = document.getElementById('league-table').querySelector('tbody');
-            tbody.innerHTML = `
-                <tr onclick="alert('Прошлый матч Барселоны: Победа 3-1')">
-                    <td>1</td><td>Барселона</td><td>8</td><td>24</td>
-                </tr>
-                <tr onclick="alert('Прошлый матч Реала: Ничья 1-1')">
-                    <td>2</td><td>Реал Мадрид</td><td>8</td><td>18</td>
-                </tr>
-            `;
+            tbody.innerHTML = '<tr><td colspan="4">Загрузка...</td></tr>';
+
+            try {
+                // Твоя ссылка из туннеля Cloudflare
+                const apiUrl = 'https://improved-programme-kid-buffer.trycloudflare.com';
+                const response = await fetch(`${apiUrl}/api/table/${currentLeagueCode}`);
+                const data = await response.json();
+
+                if (data.error) {
+                    tbody.innerHTML = `<tr><td colspan="4">Ошибка: ${data.error}</td></tr>`;
+                    return;
+                }
+
+                tbody.innerHTML = '';
+                data.table.forEach(row => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>${row.position}</td>
+                        <td>${row.team}</td>
+                        <td>${row.played}</td>
+                        <td>${row.points}</td>
+                    `;
+                    tr.onclick = () => alert(`Команда: ${row.team}\nОчки: ${row.points}\nЗабито: ${row.goalsFor}\nПропущено: ${row.goalsAgainst}`);
+                    tbody.appendChild(tr);
+                });
+            } catch (e) {
+                tbody.innerHTML = `<tr><td colspan="4">Ошибка сети: ${e.message}</td></tr>`;
+            }
         }
     </script>
 </body>
-  </html>
+</html>
