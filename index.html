@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Спорт Прогнозы</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        :root {
+            --bg-color: var(--tg-theme-bg-color, #ffffff);
+            --text-color: var(--tg-theme-text-color, #000000);
+            --button-color: var(--tg-theme-button-color, #2481cc);
+            --button-text: var(--tg-theme-button-text-color, #ffffff);
+            --secondary-bg: var(--tg-theme-secondary-bg-color, #f0f0f0);
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        h1, h2 { margin: 0 0 8px 0; font-size: 20px; }
+        .card {
+            background-color: var(--secondary-bg);
+            border-radius: 12px;
+            padding: 16px;
+            cursor: pointer;
+            transition: transform 0.1s;
+        }
+        .card:active { transform: scale(0.98); }
+        .back-btn {
+            background: none;
+            border: none;
+            color: var(--button-color);
+            font-size: 16px;
+            padding: 0;
+            margin-bottom: 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+        .hidden { display: none; }
+        /* Стили для таблицы */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+        th, td {
+            padding: 8px 4px;
+            text-align: left;
+            border-bottom: 1px solid rgba(128, 128, 128, 0.2);
+        }
+        th { font-weight: 600; color: rgba(128, 128, 128, 1); }
+        tr:active { background-color: rgba(0,0,0,0.05); }
+    </style>
+</head>
+<body>
+
+    <!-- Главное меню -->
+    <div id="main-menu">
+        <h1>Меню</h1>
+        <div class="card" onclick="showLeagues()">
+            <h2>🏆 Чемпионаты</h2>
+            <p>Выбрать лигу и посмотреть матчи</p>
+        </div>
+        <!-- Сюда можно добавить другие пункты меню -->
+    </div>
+
+    <!-- Список лиг -->
+    <div id="leagues-menu" class="hidden">
+        <button class="back-btn" onclick="showMainMenu()">← Назад</button>
+        <h1>Выберите лигу</h1>
+        <div class="card" onclick="showLeagueDetails('APL', 'Английская Премьер-лига')">
+            <h2>🏴 АПЛ</h2>
+        </div>
+        <div class="card" onclick="showLeagueDetails('LaLiga', 'Ла Лига')">
+            <h2>🇪🇸 Ла Лига</h2>
+        </div>
+        <div class="card" onclick="showLeagueDetails('Friendly', 'Товарищеские матчи')">
+            <h2>🤝 Товарищеские игры</h2>
+        </div>
+        <!-- Добавь другие лиги -->
+    </div>
+
+    <!-- Детали лиги (Прогнозы / Таблица) -->
+    <div id="league-details" class="hidden">
+        <button class="back-btn" onclick="showLeagues()">← Назад к лигам</button>
+        <h1 id="league-title">Лига</h1>
+        
+        <div class="card" onclick="showPredictions()">
+            <h2>🔮 Прогнозы матчей</h2>
+            <p>Примерные вероятности и исходы</p>
+        </div>
+        
+        <div class="card" onclick="showTable()">
+            <h2>📊 Турнирная таблица</h2>
+            <p>Нажмите на команду, чтобы увидеть прошлый матч</p>
+        </div>
+    </div>
+
+    <!-- Таблица -->
+    <div id="table-view" class="hidden">
+        <button class="back-btn" onclick="backToDetails()">← Назад</button>
+        <h1 id="table-title">Таблица</h1>
+        <table id="league-table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Команда</th>
+                    <th>И</th>
+                    <th>О</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Данные будут вставлены через JS -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        // Инициализация Telegram Web App
+        const tg = window.Telegram.WebApp;
+        tg.expand(); // Разворачиваем на весь экран
+        tg.ready();
+
+        let currentLeagueCode = '';
+
+        // --- Навигация ---
+        function hideAll() {
+            document.getElementById('main-menu').classList.add('hidden');
+            document.getElementById('leagues-menu').classList.add('hidden');
+            document.getElementById('league-details').classList.add('hidden');
+            document.getElementById('table-view').classList.add('hidden');
+        }
+
+        function showMainMenu() {
+            hideAll();
+            document.getElementById('main-menu').classList.remove('hidden');
+        }
+
+        function showLeagues() {
+            hideAll();
+            document.getElementById('leagues-menu').classList.remove('hidden');
+        }
+
+        function showLeagueDetails(code, name) {
+            hideAll();
+            currentLeagueCode = code;
+            document.getElementById('league-title').innerText = name;
+            document.getElementById('league-details').classList.remove('hidden');
+        }
+
+        function backToDetails() {
+            showLeagueDetails(currentLeagueCode, document.getElementById('league-title').innerText);
+        }
+
+        // --- Данные (Заглушки) ---
+        function showPredictions() {
+            // В будущем здесь будет запрос к твоему серверу за прогнозами
+            alert('Здесь будут прогнозы матчей для ' + currentLeagueCode);
+        }
+
+        function showTable() {
+            hideAll();
+            document.getElementById('table-view').classList.remove('hidden');
+            document.getElementById('table-title').innerText = 'Таблица: ' + currentLeagueCode;
+            
+            // Для примера заполняем таблицу фейковыми данными
+            const tbody = document.getElementById('league-table').querySelector('tbody');
+            tbody.innerHTML = `
+                <tr onclick="alert('Прошлый матч Барселоны: Победа 3-1')">
+                    <td>1</td><td>Барселона</td><td>8</td><td>24</td>
+                </tr>
+                <tr onclick="alert('Прошлый матч Реала: Ничья 1-1')">
+                    <td>2</td><td>Реал Мадрид</td><td>8</td><td>18</td>
+                </tr>
+            `;
+        }
+    </script>
+</body>
+  </html>
